@@ -1,3 +1,7 @@
 pydantic,
 fastapi,
 uvicorn,
+osmnx,
+networkx,
+geopy,
+folium,
