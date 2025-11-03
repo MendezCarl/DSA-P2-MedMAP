@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import Results from "./Results"
 
-function App() {
-  const [count, setCount] = useState(0)
+function LandingPage() {
+  const [address, setAddress] = useState("")
+  const [insurance, setInsurance] = useState("")
+  const navigate = useNavigate()
+
+  const onSubmit = () => {
+    localStorage.setItem('theaddy', address);
+    localStorage.setItem('provider', insurance);
+    navigate(`/results?`)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <section className="hero">
+      <h1>Find a in-network doctor near you</h1>
+      <p>Enter your address</p>
+      <input
+        type="text"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="123 Main St..."
+      />
+      <p>Enter your insurance provider</p>
+      <input
+        type="text"
+        value={insurance}
+        onChange={(e) => setInsurance(e.target.value)}
+        placeholder="United.."
+      />
+      <button onClick={onSubmit}>Start</button>
+    </section>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/results" element={<Results />} />
+    </Routes>
+  )
+}
