@@ -18,7 +18,14 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
-*.ntvs*
+*.ntvs*I
 *.njsproj
 *.sln
 *.sw?
+
+#backend
+.env
+.env.local
+*.pyc
+__pycache__/
+backend/*.json
