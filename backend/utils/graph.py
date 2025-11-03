@@ -34,6 +34,7 @@ class Graph:
                 print(f" -> {adjNode} (weight {dist})", end="")
             print()
 
+    # dist[v] = dist[u] + weight[u][v]
     def dijkstraRoute(self, toNode):
         heap = minHeap()
         distances = {} # dictionary holding distances between nodes
