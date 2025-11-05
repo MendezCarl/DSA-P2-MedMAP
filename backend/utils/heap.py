@@ -1,16 +1,10 @@
 from collections import defaultdict
-import sys
 
 class minHeap():
     def __init__(self):
         self.array = []
         self.size = 0
-        self.position = [] #index is the vertex, value is the position in the heap array
-
-    #location is a tuple of (lat, lon)
-    def newMinHeapNode(self, location, dist):
-        node = [location, dist]
-        return node
+        self.position = {}
 
     def swapMinHeapNode(self, a, b):
         temp = self.array[a]
@@ -63,9 +57,16 @@ class minHeap():
             index = (index-1)//2
 
     def isInMinHeap(self, node):
-        if (self.position[node] < self.size):
+        if node in self.position and (self.position[node] < self.size):
             return True
         return False
+    
 
+    #location is a tuple of (lat, lon)
+    def newMinHeapNode(self, location, dist):
+        self.size += 1
+        node = [location, dist]
+        self.array.append(node)
+        self.position[node] = self.size
 
-        
+        self.minHeapify
