@@ -7,6 +7,12 @@ import requests
 import folium
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+import sys
+from pathlib import Path
+
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
 from backend.schemas.output import (
     currentLocation,
     destinationLocation,
@@ -167,7 +173,7 @@ def buildGraphFromRoadNetwork(area: searchArea):
     graph = Graph()
 
     for way in ways:
-        wayNode = way.get['nodes', []]
+        wayNode = way.get('nodes', [])
 
         for i in range(len(wayNode) - 1):
             node1Id = wayNode[i]
@@ -194,10 +200,60 @@ def findNearestRoadNode(lat: float, lon: float, graph: Graph) -> tuple[float, fl
     for node in graph.graph.keys():
         distance = geodesic(givenNode, node).meters
         if distance < minDistance:
-            distance = minDistance
+            minDistance = distance
             nearestNod = node
     
     return nearestNod
 
 def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: str):
-    area = createSearchArea(fromLat, fromLon, radiusKm=25) # radius hard coded. Should be user input
+    try:
+        startCoord = (fromLat, fromLon)
+        endCoord = (toLat, toLon)
+        distance = geodesic(startCoord, endCoord).kilometers
+
+        centerLat = (fromLat + toLat) / 2 
+        centerLon = (fromLon + toLon) / 2
+
+        radius = max(distance * 0.75, 5)
+
+        area = createSearchArea(centerLat, centerLon)
+
+        if not area:
+            print("could not create a search area")
+            return None
+        
+        graph = buildGraphFromRoadNetwork(area)
+
+        if len(graph.graph) == 0:
+            print("No road network found")
+            return None
+        
+        startNode = findNearestRoadNode(fromLat, fromLon, graph)
+        endNode = findNearestRoadNode(toLat, toLon, graph)
+
+        if not startNode or not endNode:
+            print("No rode nodes at currently location")
+            return None
+        
+        if algo.lower() == "astar":
+            path = graph.aStarRoute(startNode, endNode)
+            if path:
+                print(f"AStar route with {len(path)} nodes")
+        elif algo.lower() == "dijkstra":
+            path = graph.dijkstraRoute(startNode, endNode)  
+            if path:
+                print(f"Dijkstra route with {len(path)} nodes")
+
+        if not path:
+            print("No road route found")
+            return None
+        
+        roadRouteTotalDistance = 0
+        for i in range(len(path) - 1):
+            roadRouteTotalDistance += geodesic(path[i], path[i+1]).kilometers
+        print(f"Total road route distance: {roadRouteTotalDistance}km")
+
+        return path
+    except Exception as e:
+        print(f"Error finding road route: {e}")
+        return None
