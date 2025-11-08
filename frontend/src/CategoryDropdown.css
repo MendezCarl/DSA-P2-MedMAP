@@ -1,0 +1,19 @@
+.category-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 250px;
+}
+
+.category-dropdown label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.category-dropdown select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  font-size: 14px;
+  cursor: pointer;
+}

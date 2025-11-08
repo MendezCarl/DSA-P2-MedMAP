@@ -1,10 +1,13 @@
 import { useState } from "react"
 import {useNavigate} from "react-router-dom"
 import "./LandingMain.css"
+import { CategoryDropdown } from "./CategoryDropdown"
+import type { Specialty } from "./Specialties";
+
 
 function LandingMain() {
     const [street, setAddress] = useState("")
-    const [specialty, setSpecialty] = useState("")
+    const [specialty, setSpecialty] = useState<Specialty | "">("");
     const navigate = useNavigate()
 
     const onSubmit = () => {
@@ -28,10 +31,9 @@ function LandingMain() {
                 placeholder="123 Main St..."
                 />
                 <br></br>
-                <input
-                type="text"
-                onChange={(e) => setSpecialty(e.target.value)}
-                placeholder="Cardiology"
+                <CategoryDropdown
+                    value={specialty}
+                    onChange={setSpecialty}
                 />
 
                 <button className="effect" onClick={onSubmit}>
