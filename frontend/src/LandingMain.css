@@ -1,0 +1,83 @@
+
+h1 {
+  color: var(--text);
+  font-family: var(--ff);
+  font-size: max(36px, 4vw);
+  line-height: max(48px, 5vw);
+  font-weight: bold;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  size: large;
+  padding-top: 100px;
+}
+
+h2 {
+  color: var(--text);
+  font-family: var(--ff);
+  font-size: max(36px, 2vw);
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-weight: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 100px;
+}
+
+h3 {
+  color: var(--text);
+  font-family: var(--ff);
+  font-size: max(12px, 1vw);
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: normal;
+}
+
+.section{
+  margin: 0px auto;
+  max-width: 1080px;
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+button {
+  margin: 4px;
+}
+button:hover {
+  scale: 1.05;
+}
+.effect{
+   border: solid 1px var(--primary);
+   box-shadow: 0 2px var(--primary);
+}
+.effect:hover {
+  box-shadow: 0 4px var(--primary);
+}
+
+#box0{
+  width:100%;
+  margin-bottom: 0px;
+}
+
+#box1{
+  width:100%;
+  background-color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+footer{
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

@@ -1,0 +1,24 @@
+
+li{
+  list-style: ""; /*checkmark*/
+}
+li:nth-child(2) {
+  list-style: "";
+}
+li:nth-child(3) {
+  list-style: "";
+}
+
+.hospital-card {
+  border: 1px solid #eee;
+  padding: 12px;
+  border-radius: 8px;
+  background: white;
+  margin: 1px;
+}
+
+.hospital-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+}

@@ -5,6 +5,7 @@ This guide is to help new and current developers in getting started on contribut
 ```bash
 cd frontend
 npm install
+npm run dev
 ```
 
 ## Backend Setup
