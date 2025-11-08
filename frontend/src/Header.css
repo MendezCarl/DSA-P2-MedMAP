@@ -1,0 +1,26 @@
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#logo {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.navbar a {
+  margin-left: 28px;
+  color: #212529;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity .15s ease;
+}
+
+.navbar a:hover {
+  opacity: .7;
+}

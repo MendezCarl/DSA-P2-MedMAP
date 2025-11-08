@@ -1,0 +1,11 @@
+li {font: var(--p); line-height: 40px;}.p1 {font: var(--p1);}
+
+li{
+  list-style: ""; /*checkmark*/
+}
+li:nth-child(2) {
+  list-style: "";
+}
+li:nth-child(3) {
+  list-style: "";
+}
