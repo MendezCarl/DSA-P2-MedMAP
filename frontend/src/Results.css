@@ -15,10 +15,16 @@
 }
 
 .right-map {
-  flex: 1; /* takes the rest */
-  background: #f5f5f5; /* temp placeholder */
+  flex: 1;           /* take remaining horizontal space */
+  display: flex;     /* so #map can flex inside */
 }
 
-hr{
+#map {
+    height: 90%;
+    width: 100%;
+    min-height: 400px; 
+}
+
+hr {
     margin: 0px;
 }
