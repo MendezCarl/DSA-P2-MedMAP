@@ -46,8 +46,7 @@ class Graph:
         distances[fromNode] = 0
         
         for node in self.graph:
-            heap.array.append(heap.newMinHeapNode(node, distances[node]))
-            heap.position.append(node)
+            heap.newMinHeapNode(node, distances[node])
         # heap.size = len(heap.array)
 
         while heap.size > 0:
@@ -72,6 +71,7 @@ class Graph:
                         distances[adjNode] = newDistance
                         traversed[adjNode] = currentNode
                         heap.decreaseKey(adjNode, newDistance)
+        return "No path found Dijkstras"
                 
     # f(n) = g(n) + h(n)
     # g(n) is the cost of the path
@@ -91,9 +91,7 @@ class Graph:
         fScore[fromNode] = 0
         
         for node in self.graph:
-            heap.array.append(heap.newMinHeapNode(node, fScore[node]))
-            heap.position.append(node)
-        # heap.size = len(heap.array)
+            heap.newMinHeapNode(node, fScore[node])
 
         while heap.size > 0:
             minNode = heap.extractMin()
@@ -119,4 +117,5 @@ class Graph:
                         fScore[adjNode] = gScore[adjNode] + hScore
                         traversed[adjNode] = currentNode
                         heap.decreaseKey(adjNode, fScore[adjNode])
+        return "No path found with A*"
 

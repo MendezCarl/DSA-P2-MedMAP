@@ -64,9 +64,22 @@ class minHeap():
 
     #location is a tuple of (lat, lon)
     def newMinHeapNode(self, location, dist):
-        self.size += 1
         node = [location, dist]
         self.array.append(node)
-        self.position[node] = self.size
+        self.position[location] = self.size
+        self.size += 1
+    
 
-        self.minHeapify
+        #building from bottom to top
+        index = self.size-1
+        while index > 0:
+            parent = (index-1) // 2
+            if self.array[parent][1] > self.array[index][1]:
+                self.position[self.array[parent][0]] = index
+                self.position[self.array[index][0]] = parent
+
+                self.swapMinHeapNode(parent, index)
+                index = parent
+            else:
+                break
+        return node
