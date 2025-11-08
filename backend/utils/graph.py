@@ -19,7 +19,7 @@ class Graph:
         for adjNode, dist in self.graph[fromNode]:
             if adjNode == toNode:
                 return dist
-        return float("Distance not found")
+        return float("inf")
 
     def sumEdge(self, fromNode, toNode):
         total = 0

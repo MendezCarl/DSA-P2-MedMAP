@@ -18,7 +18,8 @@ from backend.schemas.output import (
     destinationLocation,
     hospitalInfo,
     hospitalInfoRequest,
-    searchArea
+    searchArea,
+    route
 )
 from backend.utils.graph import Graph
 
@@ -172,6 +173,14 @@ def buildGraphFromRoadNetwork(area: searchArea):
 
     graph = Graph()
 
+    if not ways:
+        print("No ways found in the road network")
+        return graph
+
+    if not nodes:
+        print("No nodes found in the road network")
+        return graph
+    
     for way in ways:
         wayNode = way.get('nodes', [])
 
@@ -195,17 +204,17 @@ def buildGraphFromRoadNetwork(area: searchArea):
 def findNearestRoadNode(lat: float, lon: float, graph: Graph) -> tuple[float, float] | None:
     givenNode = (lat, lon)
     minDistance = float('inf')
-    nearestNod = None
+    nearestNode = None
 
     for node in graph.graph.keys():
         distance = geodesic(givenNode, node).meters
         if distance < minDistance:
             minDistance = distance
-            nearestNod = node
+            nearestNode = node
     
-    return nearestNod
+    return nearestNode
 
-def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: str):
+def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: str) ->route | None:
     try:
         startCoord = (fromLat, fromLon)
         endCoord = (toLat, toLon)
@@ -214,7 +223,8 @@ def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: 
         centerLat = (fromLat + toLat) / 2 
         centerLon = (fromLon + toLon) / 2
 
-        radius = max(distance * 0.75, 5)
+        # Currently not being used. Hardcoded to use radius of 25km, we need let the user choose a radius
+        # radius = max(distance * 0.75, 5)
 
         area = createSearchArea(centerLat, centerLon)
 
@@ -231,6 +241,7 @@ def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: 
         startNode = findNearestRoadNode(fromLat, fromLon, graph)
         endNode = findNearestRoadNode(toLat, toLon, graph)
 
+        path = None
         if not startNode or not endNode:
             print("No rode nodes at currently location")
             return None
@@ -244,8 +255,8 @@ def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: 
             if path:
                 print(f"Dijkstra route with {len(path)} nodes")
 
-        if not path:
-            print("No road route found")
+        if not path or isinstance(path, str):
+            print(f"No road route found: {path if isinstance(path, str) else 'Unknown error'}")
             return None
         
         roadRouteTotalDistance = 0
@@ -253,7 +264,14 @@ def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: 
             roadRouteTotalDistance += geodesic(path[i], path[i+1]).kilometers
         print(f"Total road route distance: {roadRouteTotalDistance}km")
 
-        return path
+        return route(
+            algorithm = algo.lower(),
+            path = path,
+            wayPointsCount = len(path),
+            distanceKm = round(roadRouteTotalDistance, 2),
+            startCoord = startCoord,
+            endCoord = endCoord
+        )
     except Exception as e:
         print(f"Error finding road route: {e}")
         return None

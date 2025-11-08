@@ -32,4 +32,11 @@ class searchArea(BaseModel):
     maxLongitude: float
     maxLatitude: float
     city:  str | None
-    
+
+class route(BaseModel):
+    algorithm: str
+    path: list[tuple[float, float]]
+    wayPointsCount: int
+    distanceKm: float
+    startCoord: tuple[float, float]
+    endCoord: tuple[float, float]
