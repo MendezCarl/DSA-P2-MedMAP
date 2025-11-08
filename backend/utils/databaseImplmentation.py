@@ -3,7 +3,6 @@ from geopy.distance import geodesic
 import sys
 from pathlib import Path
 
-# Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -88,7 +87,9 @@ def getMedicalFacilities(area: searchArea) -> list[hospitalInfo]:
             ))
 
         facilities.sort(key = lambda h: h.distance)
-        print(f"There are {len(facilities)} in the search area"
+        print(f"There are {len(facilities)} in the search area")
         return facilities
+    
     except Exception as e:
         print(f"Not able to access database of facilities")
+        return []
