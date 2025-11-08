@@ -7,6 +7,13 @@ import requests
 import folium
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+import sys
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
 from backend.schemas.output import (
     currentLocation,
     destinationLocation,
@@ -167,7 +174,7 @@ def buildGraphFromRoadNetwork(area: searchArea):
     graph = Graph()
 
     for way in ways:
-        wayNode = way.get['nodes', []]
+        wayNode = way.get('nodes', [])
 
         for i in range(len(wayNode) - 1):
             node1Id = wayNode[i]
@@ -194,7 +201,7 @@ def findNearestRoadNode(lat: float, lon: float, graph: Graph) -> tuple[float, fl
     for node in graph.graph.keys():
         distance = geodesic(givenNode, node).meters
         if distance < minDistance:
-            distance = minDistance
+            minDistance = distance
             nearestNod = node
     
     return nearestNod
