@@ -1,8 +1,10 @@
 import "./Header.css"
+// import { ReactComponent as logoComponent } from './assets/dsa-logo.svg?react';
 function Header() {
 
     return(
         <header className="header">
+            {/* <logoComponent /> */}
             <nav className="navbar">
                 <div id="logo">MedMap </div>
                 <div>

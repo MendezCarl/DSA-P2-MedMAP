@@ -27,14 +27,6 @@ body {
   margin: 0;
 }
 
-.hospital-card {
-  border: 2px solid var(--text);
-  padding: 4px;
-  margin: 16px;
-  width: 30%;
-  background-color: var(--bg);
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

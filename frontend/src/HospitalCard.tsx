@@ -4,7 +4,7 @@ function HospitalCard() {
     return( 
         <div className="hospital-card">
             <img></img>
-            <h2>Hospital Name</h2>
+            <p>Hospital Name</p>
             <ul>Specialties 
                 <li>Specialty 1</li>
                 <li>Specialty 2</li>
