@@ -27,7 +27,7 @@ class minHeap():
 
             self.swapMinHeapNode(smallest, index)
 
-            self.minHeapify(smallest) #recursive call
+            self.minHeapify(smallest)
     
     def extractMin(self):
         if (self.size) == 0:
@@ -41,16 +41,16 @@ class minHeap():
         del self.position[root[0]]
 
         self.size -= 1
-        self.minHeapify(0) # heapify from root
+        self.minHeapify(0)
 
         return root
     
     def decreaseKey(self, node, dist):
         index = self.position[node]
-        self.array[index][1] = dist #updating distance value
+        self.array[index][1] = dist
 
-        while (index > 0 and self.array[index][1] < self.array[(index-1)//2][1]): #log n implementation
-            self.position[self.array[index][0]] = (index-1)//2 #swaps position
+        while (index > 0 and self.array[index][1] < self.array[(index-1)//2][1]):
+            self.position[self.array[index][0]] = (index-1)//2
             self.position[self.array[(index-1)//2][0]] = index
             self.swapMinHeapNode(index, (index-1)//2)
 
@@ -69,8 +69,6 @@ class minHeap():
         self.position[location] = self.size
         self.size += 1
     
-
-        #building from bottom to top
         index = self.size-1
         while index > 0:
             parent = (index-1) // 2

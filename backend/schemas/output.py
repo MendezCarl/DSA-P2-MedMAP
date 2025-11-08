@@ -24,3 +24,12 @@ class hospitalInfoRequest(BaseModel):
     address: str | None = None
     name: str | None = None
     functionality: list[str] | None = None
+
+#search area will be a circle with radius r
+class searchArea(BaseModel):
+    minLongitude: float
+    minLatitude: float
+    maxLongitude: float
+    maxLatitude: float
+    city:  str | None
+    

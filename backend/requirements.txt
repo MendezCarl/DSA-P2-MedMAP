@@ -1,7 +1,8 @@
-pydantic,
-fastapi,
-uvicorn,
-osmnx,
-networkx,
-geopy,
-folium,
+pydantic
+fastapi
+uvicorn
+osmnx
+networkx
+geopy
+folium
+requests

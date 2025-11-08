@@ -29,3 +29,6 @@ dist-ssr
 *.pyc
 __pycache__/
 backend/*.json
+
+#environments
+.venv
