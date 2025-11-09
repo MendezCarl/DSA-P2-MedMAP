@@ -1,6 +1,6 @@
 
 li{
-  list-style: ""; /*checkmark*/
+  list-style: "";
 }
 li:nth-child(2) {
   list-style: "";

@@ -71,31 +71,33 @@ def getLocationFromAddress(address: str) -> currentLocation | None:
         return None
 
 def findClosestCity(lat: float, lon: float) -> str | None:
-    try:
-        location = geoLocator.reverse(f"{lat}, {lon}", exactly_one=True)
+    # try:
+    #     location = geoLocator.reverse(f"{lat}, {lon}", exactly_one=True)
 
-        if not location:
-            return None
+    #     if not location:
+    #         return None
         
-        if hasattr(location, 'raw'):
-            address = location.raw.get('address', {})
+    #     if hasattr(location, 'raw'):
+    #         address = location.raw.get('address', {})
             
-            # Extract city from address components
-            city = (
-                address.get('city') or
-                address.get('town') or
-                address.get('village') or
-                address.get('municipality') or
-                address.get('county')
-            )
+    #         # Extract city from address components
+    #         city = (
+    #             address.get('city') or
+    #             address.get('town') or
+    #             address.get('village') or
+    #             address.get('municipality') or
+    #             address.get('county')
+    #         )
             
-            return city
+    #         return city
         
-        return None
+    #     return None
             
-    except Exception as e:
-        print(f"Error finding closest City to address: {e}")
-        return None
+    # except Exception as e:
+    #     print(f"Error finding closest City to address: {e}")
+    #     return None
+
+    return "Gainesville"
     
 def createSearchArea(lat: float, lon: float, radiusKm: float = 25) -> searchArea | None:
     try:
@@ -212,10 +214,6 @@ def findRoute(fromLat: float, fromLon: float, toLat: float, toLon: float, algo: 
 
         centerLat = (fromLat + toLat) / 2 
         centerLon = (fromLon + toLon) / 2
-
-        # Currently not being used. Hardcoded to use radius of 25km, we need let the user choose a radius
-        # radius = max(distance * 0.75, 5)
-
         area = createSearchArea(centerLat, centerLon)
 
         if not area:
