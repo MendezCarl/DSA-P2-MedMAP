@@ -7,6 +7,7 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 from backend.schemas.output import searchArea, hospitalInfo
+from backend.utils.osmImplmentation import getLocationFromAddress
 
 DATABASE_API_URL = "https://data.cms.gov/data-api/v1/dataset/8ba0f9b4-9493-4aa0-9f82-44ea9468d1b5/data"
 
@@ -26,19 +27,12 @@ def getMedicalFacilities(area: searchArea) -> list[hospitalInfo]:
         data = response.json()
         facilities = []
 
+        #recalulate center vertex(origin)
+        fromLat = (area.minLatitude + area.maxLatitude) / 2
+        fromLon = (area.minLongitude + area.maxLongitude) / 2
+        fromCoord = (fromLat, fromLon)
+
         for facility in data:
-            try:
-                lat = float(facility.get('latitude', 0))
-                lon = float(facility.get('longitude', 0))
-            except(ValueError, TypeError):
-                continue
-
-            if not (area.minLatitude <= lat <= area.maxLatitude and 
-                    area.minLongitude <= lon <= area.maxLongitude):
-                continue
-
-            name = facility.get('facility_name', 'Unknown Facility')
-
             addressParts = []
             if facility.get('address'):
                 addressParts.append(facility['address'])
@@ -50,6 +44,19 @@ def getMedicalFacilities(area: searchArea) -> list[hospitalInfo]:
                 addressParts.append(facility['zip_code'])
 
             address = ', '.join(addressParts) if addressParts else "Address not found in database"
+
+            location = getLocationFromAddress(address)
+            if location is None:
+                continue
+            
+            lat = location.latitude
+            lon = location.longitude
+
+            if not (area.minLatitude <= lat <= area.maxLatitude and 
+                    area.minLongitude <= lon <= area.maxLongitude):
+                continue
+
+            name = facility.get('facility_name', 'Unknown Facility')
 
             functionality = []
             
@@ -66,14 +73,9 @@ def getMedicalFacilities(area: searchArea) -> list[hospitalInfo]:
             
             #default value
             if not functionality:
-                functionality = ['General Hospital']
+                functionality = ['General Medical Facility']
             
             facilityCoord = (lat,lon)
-
-            #recalulate center vertex(origin)
-            fromLat = (area.minLatitude + area.maxLatitude) / 2
-            fromLon = (area.minLongitude + area.maxLongitude) / 2
-            fromCoord = (fromLat, fromLon)
 
             distance = geodesic(fromCoord, facilityCoord).meters
 
