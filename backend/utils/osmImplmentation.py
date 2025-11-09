@@ -26,7 +26,7 @@ from backend.utils.graph import Graph
 OVERPASS_API_URL = "http://overpass-api.de/api/interpreter"
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 
-geoLocator = Nominatim(user_agent="medMap")
+geoLocator = Nominatim(user_agent="medMap", timeout=5)
 
 ALLOWED_NODE_TYPES = {
     "motorway",
@@ -54,30 +54,20 @@ EXCLUDED_NODE_TYPES = {
     "steps",
 }
 
-def getLocationFromAddress(address:str) -> currentLocation | None:
+def getLocationFromAddress(address: str) -> currentLocation | None:
     try:
-        params = {
-            'q': address,
-            'format': 'json',
-            'limit': 1,
-            'addressdetails': 1
-        }
+        location = geoLocator.geocode(address, exactly_one=True)
 
-        response = requests.get(NOMINATIM_URL, params=params)
-        response.raise_for_status()
-
-        data = response.json()
-        if not data:
+        if not location:
             return None
-        
-        result = data[0]
+
         return currentLocation(
-            latitude=float(result['lat']),
-            longitude=float(result['lon']),
-            street=result['display_name']
+            latitude=location.latitude,
+            longitude=location.longitude,
+            street=location.address,
         )
     except Exception as e:
-        print(F"Error getting location from Address: {e}")
+        print(f"Error getting location from Address: {e}")
         return None
 
 def findClosestCity(lat: float, lon: float) -> str | None:

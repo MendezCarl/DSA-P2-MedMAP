@@ -1,5 +1,5 @@
 from collections import defaultdict
-from heap import minHeap
+from .heap import minHeap
 
 class Graph:
     def __init__(self):
